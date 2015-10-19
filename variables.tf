@@ -42,6 +42,6 @@ variable "instance_type" {
 }
 
 variable "tagName" {
-  default = "consul"
+  default = "consul-server"
   description = "Name tag for the servers"
 }

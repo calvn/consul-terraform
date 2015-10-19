@@ -42,7 +42,7 @@ resource "aws_instance" "server" {
   # Run docker container
   provisioner "remote-exec" {
     inline = [
-      "docker run -d --restart always --net host -v /tmp/config:/etc/consul.d \\",
+      "docker run -d --restart always --net host --name consul-server -v /tmp/config:/etc/consul.d \\",
       " -p ${self.private_ip}:8300:8300 \\",
       " -p ${self.private_ip}:8301:8301 \\",
       " -p ${self.private_ip}:8301:8301/udp \\",
@@ -53,7 +53,6 @@ resource "aws_instance" "server" {
       " -p 172.17.42.1:53:8600/udp \\",
       " cleung2010/consul -config-dir /etc/consul.d \\",
       " -advertise ${self.private_ip} -retry-join ${aws_instance.server.0.private_ip}",
-      "echo ${aws_instance.server.0.private_dns} > /tmp/consul-server-addr",
     ]
   }
 }
