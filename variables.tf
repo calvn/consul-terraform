@@ -31,6 +31,11 @@ variable "key_path" {
   description = "Path to the private key specified by key_name."
 }
 
+variable "consul_docker_image" {
+  default = "cleung2010/consul"
+  description = "The consul docker image to use"
+}
+
 variable "servers" {
   default = "3"
   description = "The number of Consul servers to launch."

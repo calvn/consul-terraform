@@ -10,7 +10,7 @@ resource "aws_instance" "server" {
   ami = "${lookup(var.ami, var.aws_region)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
-  security_groups = ["${aws_security_group.consul.name}"]
+  security_groups = ["${aws_security_group.consul-server.name}"]
 
   #Instance tags
   tags {
@@ -51,14 +51,14 @@ resource "aws_instance" "server" {
       " -p ${self.private_ip}:8400:8400 \\",
       " -p ${self.private_ip}:8500:8500 \\",
       " -p 172.17.42.1:53:8600/udp \\",
-      " cleung2010/consul agent -config-dir /etc/consul.d \\",
+      " ${var.consul_docker_image} agent -config-dir /etc/consul.d \\",
       " -advertise ${self.private_ip} -retry-join ${aws_instance.server.0.private_ip}",
     ]
   }
 }
 
-resource "aws_security_group" "consul" {
-  name = "consul"
+resource "aws_security_group" "consul-server" {
+  name_prefix = "consul-server-"
   description = "Consul internal traffic + maintenance."
 
   # Internal traffic
