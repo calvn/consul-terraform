@@ -41,7 +41,7 @@ variable "instance_type" {
   description = "AWS Instance type, if you change, make sure it is compatible with AMI, not all AMIs allow all instance types "
 }
 
-variable "tagName" {
+variable "tagServerName" {
   default = "consul-server"
   description = "Name tag for the servers"
 }

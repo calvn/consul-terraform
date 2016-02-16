@@ -14,7 +14,7 @@ resource "aws_instance" "server" {
 
   #Instance tags
   tags {
-    Name = "${var.tagName}-${count.index}"
+    Name = "${var.tagServerName}-${count.index}"
   }
 
   # Connection settings
@@ -51,7 +51,7 @@ resource "aws_instance" "server" {
       " -p ${self.private_ip}:8400:8400 \\",
       " -p ${self.private_ip}:8500:8500 \\",
       " -p 172.17.42.1:53:8600/udp \\",
-      " cleung2010/consul -config-dir /etc/consul.d \\",
+      " cleung2010/consul agent -config-dir /etc/consul.d \\",
       " -advertise ${self.private_ip} -retry-join ${aws_instance.server.0.private_ip}",
     ]
   }
